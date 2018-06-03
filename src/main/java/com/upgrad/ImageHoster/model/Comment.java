@@ -16,11 +16,19 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public Comment() {
     }
 
     public Comment(String text) {
         this.text = text;
+    }
+
+    public Comment(String text, User user) {
+        this.text = text;
+        this.user = user;
     }
 
     public int getId() {
@@ -45,5 +53,13 @@ public class Comment {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

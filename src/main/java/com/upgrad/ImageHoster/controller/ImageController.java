@@ -206,11 +206,17 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/image/{id}/comments/create", method = RequestMethod.POST)
-    public String createComment(@PathVariable int id, @RequestParam("comment") String commentText, Model model) {
+    public String createComment(@PathVariable int id, @RequestParam("comment") String commentText, HttpSession session) {
+        User currUser = (User) session.getAttribute("currUser");
+        if (currUser == null) {
+            return "redirect:/";
+        }
+
         Image image = imageService.getById(id);
         Comment comment = new Comment();
         comment.setText(commentText);
         comment.setImage(image);
+        comment.setUser(currUser);
         commentService.createComment(comment);
         return "redirect:/images/" + image.getTitle() + "/" + id;
     }

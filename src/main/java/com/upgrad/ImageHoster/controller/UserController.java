@@ -75,7 +75,7 @@ public class UserController {
             model.addAttribute("errors", errors);
             return "users/signup";
         }
-        if (userService.getByName(username) != null) {
+        if (checkIfUsernameExists(username)) {
             Map<String, String> errors = new HashMap<>();
             errors.put("username", "username has been registered");
             model.addAttribute("errors", errors);
@@ -244,5 +244,9 @@ public class UserController {
 
     private boolean validatePassword(String password) {
         return Objects.nonNull(password) && password.length() > MIN_LENGTH;
+    }
+
+    private boolean checkIfUsernameExists(String username) {
+        return Objects.nonNull(username) && userService.getByName(username) != null;
     }
 }
