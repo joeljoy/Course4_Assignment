@@ -1,8 +1,10 @@
 package com.upgrad.ImageHoster.controller;
 
+import com.upgrad.ImageHoster.model.Comment;
 import com.upgrad.ImageHoster.model.Image;
 import com.upgrad.ImageHoster.model.Tag;
 import com.upgrad.ImageHoster.model.User;
+import com.upgrad.ImageHoster.service.CommentService;
 import com.upgrad.ImageHoster.service.ImageService;
 import com.upgrad.ImageHoster.service.TagService;
 import com.upgrad.ImageHoster.service.UserService;
@@ -33,6 +35,9 @@ public class ImageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
 
     /**
      * This controller method returns all the images that have been
@@ -114,6 +119,7 @@ public class ImageController {
         model.addAttribute("user", image.getUser());
         model.addAttribute("image", image);
         model.addAttribute("tags", image.getTags());
+        model.addAttribute("comments", image.getComments());
 
         return "images/image";
     }
@@ -197,6 +203,16 @@ public class ImageController {
         imageService.update(image);
 
         return "redirect:/images/" + title;
+    }
+
+    @RequestMapping(value = "/image/{id}/comments/create", method = RequestMethod.POST)
+    public String createComment(@PathVariable int id, @RequestParam("comment") String commentText, Model model) {
+        Image image = imageService.getById(id);
+        Comment comment = new Comment();
+        comment.setText(commentText);
+        comment.setImage(image);
+        commentService.createComment(comment);
+        return "redirect:/images/" + image.getTitle() + "/" + id;
     }
 
     /**

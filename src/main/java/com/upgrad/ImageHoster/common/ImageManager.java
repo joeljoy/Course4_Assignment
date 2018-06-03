@@ -161,6 +161,7 @@ public class ImageManager extends SessionManager {
             Hibernate.initialize(image.getTags()); // doing a join on tags table
             Hibernate.initialize(image.getUser()); // doing a join on user table
             Hibernate.initialize(image.getUser().getProfilePhoto()); // doing a join on profile photo table
+            Hibernate.initialize(image.getComments());
             commitSession(session);
 
             return image;

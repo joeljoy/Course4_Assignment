@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {
+
     private TagManager tagManager;
 
     public TagServiceImpl() {
